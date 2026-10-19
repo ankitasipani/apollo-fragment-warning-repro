@@ -1,0 +1,84 @@
+diff -ru -x '*.map' a/dist/SimulatePreloadedQuery.cc.js b/dist/SimulatePreloadedQuery.cc.js
+--- a/dist/SimulatePreloadedQuery.cc.js
++++ b/dist/SimulatePreloadedQuery.cc.js
+@@ -182,7 +182,7 @@
+ import { gql } from "@apollo/client";
+ import { print } from "@apollo/client/utilities";
+ import { invariant } from "@apollo/client/utilities/invariant";
+-import { stripIgnoredCharacters } from "graphql";
++import { parse, stripIgnoredCharacters } from "graphql";
+ function deserializeOptions(options) {
+   return {
+     ...options,
+@@ -190,7 +190,7 @@
+     // We parse-stringify-parse here to ensure that our minified query
+     // has the best chance of being the referential same query as the one used in
+     // client-side code.
+-    query: gql(print(gql(options.query)))
++    query: gql(print(parse(options.query)))
+   };
+ }
+ 
+diff -ru -x '*.map' a/dist/index.browser.js b/dist/index.browser.js
+--- a/dist/index.browser.js
++++ b/dist/index.browser.js
+@@ -7,7 +7,7 @@
+ import { equal } from '@wry/equality';
+ import { wrapQueryRef, unwrapQueryRef, InternalQueryReference } from '@apollo/client/react/internal';
+ import { useApolloClient, ApolloProvider } from '@apollo/client/react';
+-import { stripIgnoredCharacters } from 'graphql';
++import { parse, stripIgnoredCharacters } from 'graphql';
+ import { JSONEncodeStream, JSONDecodeStream } from '@apollo/client-react-streaming/stream-utils';
+ import { __DEV__ } from '@apollo/client/utilities/environment';
+ 
+@@ -321,7 +321,7 @@
+     // We parse-stringify-parse here to ensure that our minified query
+     // has the best chance of being the referential same query as the one used in
+     // client-side code.
+-    query: gql(print(gql(options.query)))
++    query: gql(print(parse(options.query)))
+   };
+ }
+ function printMinified(query) {
+diff -ru -x '*.map' a/dist/index.rsc.js b/dist/index.rsc.js
+--- a/dist/index.rsc.js
++++ b/dist/index.rsc.js
+@@ -4,7 +4,7 @@
+ import { ApolloLink, Observable, InMemoryCache as InMemoryCache$1, gql, ApolloClient as ApolloClient$1 } from '@apollo/client';
+ import { invariant } from '@apollo/client/utilities/invariant';
+ import { Observable as Observable$1, print } from '@apollo/client/utilities';
+-import { stripIgnoredCharacters } from 'graphql';
++import { parse, stripIgnoredCharacters } from 'graphql';
+ import { JSONEncodeStream, JSONDecodeStream } from '@apollo/client-react-streaming/stream-utils';
+ import { __DEV__ } from '@apollo/client/utilities/environment';
+ import { hasDirectives, removeDirectivesFromDocument } from '@apollo/client/utilities/internal';
+@@ -175,7 +175,7 @@
+     // We parse-stringify-parse here to ensure that our minified query
+     // has the best chance of being the referential same query as the one used in
+     // client-side code.
+-    query: gql(print(gql(options.query)))
++    query: gql(print(parse(options.query)))
+   };
+ }
+ function printMinified(query) {
+diff -ru -x '*.map' a/dist/index.ssr.js b/dist/index.ssr.js
+--- a/dist/index.ssr.js
++++ b/dist/index.ssr.js
+@@ -7,7 +7,7 @@
+ import { equal } from '@wry/equality';
+ import { wrapQueryRef, unwrapQueryRef, InternalQueryReference } from '@apollo/client/react/internal';
+ import { useApolloClient, ApolloProvider } from '@apollo/client/react';
+-import { stripIgnoredCharacters } from 'graphql';
++import { parse, stripIgnoredCharacters } from 'graphql';
+ import { JSONEncodeStream, JSONDecodeStream } from '@apollo/client-react-streaming/stream-utils';
+ import { __DEV__ } from '@apollo/client/utilities/environment';
+ 
+@@ -340,7 +340,7 @@
+     // We parse-stringify-parse here to ensure that our minified query
+     // has the best chance of being the referential same query as the one used in
+     // client-side code.
+-    query: gql(print(gql(options.query)))
++    query: gql(print(parse(options.query)))
+   };
+ }
+ function printMinified(query) {
